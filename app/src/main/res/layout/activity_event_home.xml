@@ -110,14 +110,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/go_back" />
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="15dp"
-                app:layout_constraintTop_toBottomOf="parent"
-                tools:layout_editor_absoluteX="-63dp" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

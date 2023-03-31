@@ -1,5 +1,6 @@
 package com.example.event_aggregator2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
