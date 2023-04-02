@@ -25,7 +25,7 @@ public class MainFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        NavHostFragment.findNavController(this).navigate(R.id.action_mainFragment_to_registrationFragment);
+        NavHostFragment.findNavController(this).navigate(R.id.registrationFragment);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.event_aggregator2.ui.registration;
+package com.example.event_aggregator2.ui.profile;
 
 import android.os.Bundle;
 
@@ -13,33 +13,31 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.event_aggregator2.R;
-import com.example.event_aggregator2.databinding.FragmentRegistrationBinding;
+import com.example.event_aggregator2.databinding.FragmentAllVisitedEventsBinding;
 
-
-public class RegistrationFragment extends Fragment {
-    private RegistrationViewModel viewModel;
-    private FragmentRegistrationBinding binding;
-
+public class AllVisitedEventsFragment extends Fragment {
+    AllVisitedEventsViewModel viewModel;
+    FragmentAllVisitedEventsBinding binding;
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AllVisitedEventsViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentRegistrationBinding.inflate(inflater);
+        binding = FragmentAllVisitedEventsBinding.inflate(inflater);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.registration.setOnClickListener(new View.OnClickListener() {
+        binding.BackToProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(RegistrationFragment.this).navigate(R.id.loginFragment);
+                NavHostFragment.findNavController(AllVisitedEventsFragment.this).navigate(R.id.profileFragment);
             }
         });
     }

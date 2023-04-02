@@ -96,7 +96,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toTopOf="@+id/view" />
+            app:layout_constraintTop_toTopOf="@+id/view"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/editTextTextPersonName2"
@@ -127,7 +128,7 @@
             app:layout_constraintTop_toTopOf="@+id/view3" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/registration"
             android:layout_width="290dp"
             android:layout_height="50dp"
             android:layout_marginBottom="16dp"
@@ -146,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Хотите быть организатором?"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintBottom_toTopOf="@+id/registration"
             app:layout_constraintEnd_toEndOf="@+id/view3"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/view3" />
