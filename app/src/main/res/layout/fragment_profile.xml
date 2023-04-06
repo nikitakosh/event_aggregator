@@ -213,7 +213,7 @@
                     tools:layout_editor_absoluteX="-61dp">
 
                     <View
-                        android:id="@+id/view16"
+                        android:id="@+id/event1"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="@drawable/photo_for_visited_events"
@@ -231,7 +231,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/view16" />
+                        app:layout_constraintTop_toBottomOf="@+id/event1" />
 
                     <View
                         android:id="@+id/view21"

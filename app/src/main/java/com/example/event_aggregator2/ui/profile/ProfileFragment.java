@@ -53,5 +53,11 @@ public class ProfileFragment extends Fragment {
                 NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.mapsFragment);
             }
         });
+        binding.event1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.eventFragment);
+            }
+        });
     }
 }
