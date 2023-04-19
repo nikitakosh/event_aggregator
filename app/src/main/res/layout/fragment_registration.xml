@@ -17,29 +17,15 @@
         <View
             android:id="@+id/rectangle_1"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="470dp"
+            android:layout_height="350dp"
             android:background="@drawable/registration_rectangle"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="0dp" />
 
 
         <View
             android:id="@+id/view4"
-            android:layout_width="290dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/input_rectangle"
-            app:layout_constraintBottom_toTopOf="@+id/view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <View
-            android:id="@+id/view"
             android:layout_width="290dp"
             android:layout_height="50dp"
             android:layout_marginBottom="40dp"
@@ -84,21 +70,6 @@
             app:layout_constraintStart_toStartOf="@+id/view4"
             app:layout_constraintTop_toTopOf="@+id/view4"
             tools:ignore="TextFields" />
-
-        <EditText
-            android:background="@null"
-            android:fontFamily="@font/inter"
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Ваш город"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
-            app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toTopOf="@+id/view"
-            android:autofillHints="" />
 
         <EditText
             android:id="@+id/password"

@@ -11,11 +11,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.Executor;
 
 public class RegistrationViewModel extends ViewModel {
     private FirebaseAuth mAuth;
+    private String email;
+    private String password;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private boolean RegistrationSuccess = false;
 
 
@@ -24,9 +29,11 @@ public class RegistrationViewModel extends ViewModel {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Log.d("Mytest", "access");
                         RegistrationSuccess = true;
+                        this.email = email;
+                        this.password = password;
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        LoadDataToDataBase(user);
                     } else {
                         Exception exception = task.getException();
                         if (exception != null) {
@@ -35,5 +42,11 @@ public class RegistrationViewModel extends ViewModel {
                     }
                 });
         return RegistrationSuccess;
+    }
+    public void LoadDataToDataBase(FirebaseUser user){
+        String userId = user.getUid();
+        DatabaseReference userRef = database.getReference("users/" + userId);
+        userRef.child("password").setValue(password);
+        userRef.child("email").setValue(email);
     }
 }

@@ -28,11 +28,13 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/input_rectangle"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.508"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintTop_toBottomOf="@+id/view43"
+            tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName4"
+            android:id="@+id/email"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:background="@null"
@@ -42,9 +44,10 @@
             android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/view38"
             app:layout_constraintEnd_toEndOf="@+id/view38"
-            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/view38"
-            app:layout_constraintTop_toTopOf="@+id/view38" />
+            app:layout_constraintTop_toTopOf="@+id/view38"
+            app:layout_constraintVertical_bias="1.0" />
 
         <View
             android:id="@+id/view40"
@@ -58,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view41" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName6"
+            android:id="@+id/password"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:background="@null"
@@ -84,7 +87,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view38" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName7"
+            android:id="@+id/city"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:background="@null"
@@ -102,23 +105,28 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view40"
             tools:background="@drawable/input_rectangle"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="30dp">
+            tools:ignore="MissingConstraints">
 
             <EditText
+                android:id="@+id/AboutYorself"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="Напишите пару слов о себе"
                 android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_min="50dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/CreateProfileBtn"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_marginBottom="20dp"
@@ -130,6 +138,55 @@
             android:fontFamily="@font/inter"
             android:textColor="@color/black"
             app:cornerRadius="15dp"/>
+
+        <View
+            android:id="@+id/view42"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/input_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:ems="10"
+            android:hint="Имя"
+            android:inputType="textPersonName"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view42"
+            app:layout_constraintEnd_toEndOf="@+id/view42"
+            app:layout_constraintStart_toStartOf="@+id/view42"
+            app:layout_constraintTop_toTopOf="@+id/view42" />
+
+        <View
+            android:id="@+id/view43"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/input_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view42"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/surname"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:ems="10"
+            android:hint="Фамилия"
+            android:inputType="textPersonName"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view43"
+            app:layout_constraintEnd_toEndOf="@+id/view43"
+            app:layout_constraintStart_toStartOf="@+id/view43"
+            app:layout_constraintTop_toTopOf="@+id/view43" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

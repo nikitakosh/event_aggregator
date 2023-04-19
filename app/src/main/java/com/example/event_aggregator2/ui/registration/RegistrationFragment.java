@@ -21,6 +21,7 @@ public class RegistrationFragment extends Fragment {
     private RegistrationViewModel viewModel;
     private FragmentRegistrationBinding binding;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class RegistrationFragment extends Fragment {
                 String email = binding.email.getText().toString();
                 String password = binding.password.getText().toString();
                 if (viewModel.registration(email, password)){
-                    NavHostFragment.findNavController(RegistrationFragment.this).navigate(R.id.profileFragment);
+                    NavHostFragment.findNavController(RegistrationFragment.this).navigate(R.id.createProfileFragment);
                 }
                 else{
                     Toast.makeText(getContext(), "Пользователь с таким email уже существует", Toast.LENGTH_SHORT).show();
