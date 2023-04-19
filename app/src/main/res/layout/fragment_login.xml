@@ -42,21 +42,21 @@
             tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName4"
+            android:id="@+id/email"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:background="@null"
             android:ems="10"
             android:fontFamily="@font/inter"
-            android:hint="Номер телефона"
-            android:inputType="textPersonName"
+            android:hint="Адрес элктронной почты"
+            android:inputType="textEmailAddress"
             app:layout_constraintBottom_toBottomOf="@+id/view3"
             app:layout_constraintEnd_toEndOf="@+id/view3"
             app:layout_constraintStart_toStartOf="@+id/view3"
             app:layout_constraintTop_toTopOf="@+id/view3" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName5"
+            android:id="@+id/password"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -79,13 +79,13 @@
             android:text="Войти"
             android:textColor="@color/black"
             app:cornerRadius="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintBottom_toTopOf="@+id/goToRegistratration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/goToRegistratration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"

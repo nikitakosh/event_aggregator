@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.event_aggregator2.R;
 import com.example.event_aggregator2.databinding.FragmentRegistrationBinding;
@@ -39,8 +40,20 @@ public class RegistrationFragment extends Fragment {
         binding.registration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(RegistrationFragment.this).navigate(R.id.loginFragment);
+                String email = binding.email.getText().toString();
+                String password = binding.password.getText().toString();
+                if (viewModel.registration(email, password)){
+                    NavHostFragment.findNavController(RegistrationFragment.this).navigate(R.id.profileFragment);
+                }
+                else{
+                    Toast.makeText(getContext(), "Пользователь с таким email уже существует", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }

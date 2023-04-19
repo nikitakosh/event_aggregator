@@ -46,13 +46,28 @@
         android:label="AllVisitedEventsFragment"
         tools:layout="@layout/fragment_all_visited_events"/>
     <fragment
-        android:id="@+id/mapsFragment"
-        android:name="com.example.event_aggregator2.ui.googlemap.MapsFragment"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
-    <fragment
         android:id="@+id/eventFragment"
         android:name="com.example.event_aggregator2.ui.event.EventFragment"
         android:label="EventFragment"
         tools:layout="@layout/fragment_event"/>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.event_aggregator2.ui.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.example.event_aggregator2.ui.add_friend.AddFriendFragment"
+        android:label="fragment_add_friend"
+        tools:layout="@layout/fragment_add_friend" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.event_aggregator2.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/createEventFragment"
+        android:name="com.example.event_aggregator2.ui.create_event.CreateEventFragment"
+        android:label="fragment_create_event"
+        tools:layout="@layout/fragment_create_event" />
 </navigation>

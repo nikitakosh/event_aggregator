@@ -50,13 +50,19 @@ public class ProfileFragment extends Fragment {
         binding.ToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.mapsFragment);
+                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.homeFragment);
             }
         });
         binding.event1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.eventFragment);
+            }
+        });
+        binding.GoToCreateEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.createEventFragment);
             }
         });
     }

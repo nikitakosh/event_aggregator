@@ -11,9 +11,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.event_aggregator2.R;
 import com.example.event_aggregator2.databinding.FragmentLoginBinding;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
     private LoginViewModel viewModel;
@@ -37,8 +39,22 @@ public class LoginFragment extends Fragment {
         binding.login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.profileFragment);
+                String email = binding.email.getText().toString();
+                String password = binding.password.getText().toString();
+                if (viewModel.login(email, password)){
+                    NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.profileFragment);
+                }
+                else{
+                    Toast.makeText(getContext(), "Неверный email или password", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        binding.goToRegistratration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.registrationFragment);
             }
         });
     }
+
 }

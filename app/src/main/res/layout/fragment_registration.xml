@@ -71,18 +71,19 @@
             tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/editTextPhone2"
+            android:id="@+id/email"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:background="@null"
             android:ems="10"
             android:fontFamily="@font/inter"
-            android:hint="Номер телефона"
-            android:inputType="phone"
+            android:hint="Адрес электронной почты"
+            android:inputType="textEmailAddress"
             app:layout_constraintBottom_toBottomOf="@+id/view4"
             app:layout_constraintEnd_toEndOf="@+id/view4"
             app:layout_constraintStart_toStartOf="@+id/view4"
-            app:layout_constraintTop_toTopOf="@+id/view4" />
+            app:layout_constraintTop_toTopOf="@+id/view4"
+            tools:ignore="TextFields" />
 
         <EditText
             android:background="@null"
@@ -100,7 +101,7 @@
             android:autofillHints="" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
+            android:id="@+id/password"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:background="@null"
