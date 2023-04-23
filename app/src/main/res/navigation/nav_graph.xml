@@ -47,7 +47,7 @@
         tools:layout="@layout/fragment_all_visited_events"/>
     <fragment
         android:id="@+id/eventFragment"
-        android:name="com.example.event_aggregator2.ui.event.EventFragment"
+        android:name="com.example.event_aggregator2.ui.home.event.EventFragment"
         android:label="EventFragment"
         tools:layout="@layout/fragment_event"/>
     <fragment

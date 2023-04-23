@@ -17,11 +17,38 @@ import java.security.spec.NamedParameterSpec;
 
 public class CreateProfileViewModel extends ViewModel {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private MutableLiveData<Boolean> IsOrganizer = new MutableLiveData<>();
     private MutableLiveData<String> city = new MutableLiveData<>();
+    private MutableLiveData<String> name = new MutableLiveData<>();
+    private MutableLiveData<String> surname = new MutableLiveData<>();
     private MutableLiveData<String> NameSurname = new MutableLiveData<>();
     private MutableLiveData<String> email = new MutableLiveData<>();
     private MutableLiveData<String> password = new MutableLiveData<>();
     private MutableLiveData<String> AboutYourself = new MutableLiveData<>();
+
+    public MutableLiveData<Boolean> getIsOrganizer() {
+        return IsOrganizer;
+    }
+
+    public void setIsOrganizer(boolean IsOrganizer) {
+        this.IsOrganizer.setValue(IsOrganizer);
+    }
+
+    public void setName(String name) {
+        this.name.setValue(name);
+    }
+
+    public MutableLiveData<String> getName() {
+        return name;
+    }
+
+    public MutableLiveData<String> getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname.setValue(surname);
+    }
 
     public void setCity(String city) {
         this.city.setValue(city);
@@ -36,9 +63,6 @@ public class CreateProfileViewModel extends ViewModel {
         this.email.setValue(email);
     }
 
-    public void setPassword(String password) {
-        this.password.setValue(password);
-    }
 
     public void setAboutYourself(String aboutYourself) {
         this.AboutYourself.setValue(aboutYourself);
@@ -57,9 +81,6 @@ public class CreateProfileViewModel extends ViewModel {
         return email;
     }
 
-    public MutableLiveData<String> getPassword() {
-        return password;
-    }
 
     public MutableLiveData<String> getAboutYourself() {
         return AboutYourself;
@@ -72,11 +93,19 @@ public class CreateProfileViewModel extends ViewModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("Mytest", "GetDataFromDataBase");
-                String password = snapshot.child("password").getValue(String.class);
+                String name = snapshot.child("name").getValue(String.class);
+                String surname = snapshot.child("surname").getValue(String.class);
+                String city = snapshot.child("city").getValue(String.class);
+                String AboutYourself = snapshot.child("AboutYourself").getValue(String.class);
                 String email = snapshot.child("email").getValue(String.class);
+                boolean IsOrganizer = Boolean.TRUE.equals(snapshot.child("IsOrganizer").getValue(boolean.class));
                 Log.d("Mytest", "GetDataFromDataBase " + password + " " + email);
                 setEmail(email);
-                setPassword(password);
+                setName(name);
+                setSurname(surname);
+                setCity(city);
+                setAboutYourself(AboutYourself);
+                setIsOrganizer(IsOrganizer);
             }
 
             @Override
@@ -85,14 +114,14 @@ public class CreateProfileViewModel extends ViewModel {
             }
         });
     }
-    public void LoadDataToDataBase(String name, String surname, String city, String password, String AboutYourself, String email){
+    public void LoadDataToDataBase(String name, String surname, String city, String AboutYourself, String email, boolean IsOrganizer){
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference userRef = database.getReference("users/" + userId);
         userRef.child("name").setValue(name);
         userRef.child("surname").setValue(surname);
         userRef.child("city").setValue(city);
-        userRef.child("password").setValue(password);
         userRef.child("AboutYourself").setValue(AboutYourself);
         userRef.child("email").setValue(email);
+        userRef.child("IsOrganizer").setValue(IsOrganizer);
     }
 }

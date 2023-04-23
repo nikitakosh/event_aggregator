@@ -17,7 +17,7 @@
         <View
             android:id="@+id/rectangle_1"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="450dp"
             android:background="@drawable/registration_rectangle"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints"
@@ -28,32 +28,22 @@
             android:id="@+id/view4"
             android:layout_width="290dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/input_rectangle"
-            app:layout_constraintBottom_toTopOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rectangle_1"
             tools:ignore="MissingConstraints" />
 
         <View
             android:id="@+id/view2"
             android:layout_width="290dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/input_rectangle"
-            app:layout_constraintBottom_toTopOf="@+id/view3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <View
-            android:id="@+id/view3"
-            android:layout_width="290dp"
-            android:layout_height="50dp"
-            android:background="@drawable/input_rectangle"
-            app:layout_constraintBottom_toTopOf="@+id/checkBox"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4"
             tools:ignore="MissingConstraints" />
 
         <EditText
@@ -85,20 +75,6 @@
             app:layout_constraintStart_toStartOf="@+id/view2"
             app:layout_constraintTop_toTopOf="@+id/view2" />
 
-        <EditText
-            android:id="@+id/editTextTextPersonName3"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:ems="10"
-            android:fontFamily="@font/inter"
-            android:hint="Подтверждение пароля"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="@+id/view3"
-            app:layout_constraintEnd_toEndOf="@+id/view3"
-            app:layout_constraintStart_toStartOf="@+id/view3"
-            app:layout_constraintTop_toTopOf="@+id/view3" />
-
         <Button
             android:id="@+id/registration"
             android:layout_width="290dp"
@@ -114,14 +90,5 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Хотите быть организатором?"
-            app:layout_constraintBottom_toTopOf="@+id/registration"
-            app:layout_constraintEnd_toEndOf="@+id/view3"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/view3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

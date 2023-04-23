@@ -39,16 +39,40 @@ public class CreateProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.GetDataFromDataBase();
+        viewModel.getName().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.name.setText(s);
+            }
+        });
+        viewModel.getSurname().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.surname.setText(s);
+            }
+        });
+        viewModel.getCity().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.city.setText(s);
+            }
+        });
+        viewModel.getAboutYourself().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.AboutYorself.setText(s);
+            }
+        });
         viewModel.getEmail().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 binding.email.setText(s);
             }
         });
-        viewModel.getPassword().observe(getViewLifecycleOwner(), new Observer<String>() {
+        viewModel.getIsOrganizer().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
-            public void onChanged(String s) {
-                binding.password.setText(s);
+            public void onChanged(Boolean aBoolean) {
+                binding.IsOrganizer.setChecked(aBoolean);
             }
         });
         binding.CreateProfileBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,10 +81,16 @@ public class CreateProfileFragment extends Fragment {
                 String name = binding.name.getText().toString();
                 String surname = binding.surname.getText().toString();
                 String city = binding.city.getText().toString();
-                String password = binding.password.getText().toString();
                 String AboutYourself = binding.AboutYorself.getText().toString();
                 String email = binding.email.getText().toString();
-                viewModel.LoadDataToDataBase(name, surname, city, password, AboutYourself, email);
+                boolean IsOrganizer;
+                if (binding.IsOrganizer.isChecked()){
+                    IsOrganizer = true;
+                }
+                else{
+                    IsOrganizer = false;
+                }
+                viewModel.LoadDataToDataBase(name, surname, city, AboutYourself, email, IsOrganizer);
                 NavHostFragment.findNavController(CreateProfileFragment.this).navigate(R.id.profileFragment);
             }
         });

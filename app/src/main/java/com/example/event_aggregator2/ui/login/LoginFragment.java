@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -41,11 +42,18 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 String email = binding.email.getText().toString();
                 String password = binding.password.getText().toString();
-                if (viewModel.login(email, password)){
+                viewModel.login(email, password);
+
+            }
+        });
+        viewModel.getSignInSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (Boolean.TRUE.equals(viewModel.getSignInSuccess().getValue())){
                     NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.profileFragment);
                 }
                 else{
-                    Toast.makeText(getContext(), "Неверный email или password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Ошибка авторизации", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -11,7 +11,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -69,6 +69,34 @@
                     app:layout_constraintTop_toBottomOf="@+id/view35"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="0dp" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="12.10.2021"
+                    android:textColor="@color/black"
+                    android:textSize="45sp"
+                    app:layout_constraintTop_toBottomOf="@+id/view34"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="92dp" />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/first"
+                    android:text="Пойду!"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    app:cornerRadius="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/date" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

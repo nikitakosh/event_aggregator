@@ -18,6 +18,15 @@ public class ProfileViewModel extends ViewModel {
     private MutableLiveData<String> NameSurname = new MutableLiveData<>();
     private MutableLiveData<String> City = new MutableLiveData<>();
     private MutableLiveData<String> AboutYourself = new MutableLiveData<>();
+    private MutableLiveData<Boolean> IsOrganizer = new MutableLiveData<>();
+
+    public void setIsOrganizer(boolean IsOrganizer) {
+        this.IsOrganizer.setValue(IsOrganizer);
+    }
+
+    public MutableLiveData<Boolean> getIsOrganizer() {
+        return IsOrganizer;
+    }
 
     public void setNameSurname(String NameSurname) {
         this.NameSurname.setValue(NameSurname);
@@ -50,6 +59,8 @@ public class ProfileViewModel extends ViewModel {
                 String surname = snapshot.child("surname").getValue(String.class);
                 String city = snapshot.child("city").getValue(String.class);
                 String AboutYourself = snapshot.child("AboutYourself").getValue(String.class);
+                boolean IsOrganizer = Boolean.TRUE.equals(snapshot.child("IsOrganizer").getValue(Boolean.class));
+                setIsOrganizer(IsOrganizer);
                 setNameSurname(name + " " + surname);
                 setAboutYourself(AboutYourself);
                 setCity(city);

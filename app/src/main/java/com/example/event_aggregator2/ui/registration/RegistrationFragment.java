@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -43,11 +44,17 @@ public class RegistrationFragment extends Fragment {
             public void onClick(View view) {
                 String email = binding.email.getText().toString();
                 String password = binding.password.getText().toString();
-                if (viewModel.registration(email, password)){
+                viewModel.registration(email, password);
+            }
+        });
+        viewModel.getRegistrationSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (Boolean.TRUE.equals(viewModel.getRegistrationSuccess().getValue())){
                     NavHostFragment.findNavController(RegistrationFragment.this).navigate(R.id.createProfileFragment);
                 }
                 else{
-                    Toast.makeText(getContext(), "Пользователь с таким email уже существует", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Ошибка регистрации", Toast.LENGTH_SHORT).show();
                 }
             }
         });

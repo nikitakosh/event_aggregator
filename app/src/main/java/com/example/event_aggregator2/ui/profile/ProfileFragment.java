@@ -46,6 +46,17 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.GetDataFromDataBase();
+        viewModel.getIsOrganizer().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    binding.IsOrganizer.setText("организатор");
+                }
+                else{
+                    binding.IsOrganizer.setText("посетитель");
+                }
+            }
+        });
         viewModel.getNameSurname().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -64,7 +75,12 @@ public class ProfileFragment extends Fragment {
                 binding.city.setText(s);
             }
         });
-
+        binding.GoToChangeProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.createProfileFragment);
+            }
+        });
         binding.SeeAllVisitedEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

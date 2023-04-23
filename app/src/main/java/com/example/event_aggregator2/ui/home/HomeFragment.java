@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.example.event_aggregator2.R;
 import com.example.event_aggregator2.databinding.FragmentHomeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.yandex.mapkit.MapKitFactory;
 
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
@@ -29,7 +30,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        MapKitFactory.initialize(requireContext());
     }
 
     @Override
@@ -39,28 +40,38 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @SuppressLint("NonConstantResourceId")
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.nav_add_friend:
-                            NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.addFriendFragment);
-                            break;
-                        case R.id.nav_profile:
-                            NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.profileFragment);
-                            break;
-                        case R.id.nav_chat:
-                            NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.chatFragment);
-                            break;
-                    }
-                    return true;
-                }
-            };
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_add_friend:
+                        NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.addFriendFragment);
+                        break;
+                    case R.id.nav_profile:
+                        NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.profileFragment);
+                        break;
+                    case R.id.nav_chat:
+                        NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.chatFragment);
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+    public void onStop() {
+        binding.mapview.onStop();
+        MapKitFactory.getInstance().onStop();
+        super.onStop();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        MapKitFactory.getInstance().onStart();
+        binding.mapview.onStart();
     }
 }

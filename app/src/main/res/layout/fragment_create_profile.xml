@@ -50,33 +50,6 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <View
-            android:id="@+id/view40"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/input_rectangle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view41" />
-
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:ems="10"
-            android:hint="Новый пароль"
-            android:inputType="textPersonName"
-            android:padding="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/view40"
-            app:layout_constraintEnd_toEndOf="@+id/view40"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/view40"
-            app:layout_constraintTop_toTopOf="@+id/view40"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <View
             android:id="@+id/view41"
             android:layout_width="350dp"
             android:layout_height="50dp"
@@ -107,7 +80,7 @@
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view40"
+            app:layout_constraintTop_toBottomOf="@+id/view41"
             tools:background="@drawable/input_rectangle"
             tools:ignore="MissingConstraints">
 
@@ -188,6 +161,13 @@
             app:layout_constraintStart_toStartOf="@+id/view43"
             app:layout_constraintTop_toTopOf="@+id/view43" />
 
-
+        <CheckBox
+            android:id="@+id/IsOrganizer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Хотите быть организатором?"
+            app:layout_constraintBottom_toTopOf="@+id/CreateProfileBtn"
+            app:layout_constraintStart_toStartOf="@+id/CreateProfileBtn"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

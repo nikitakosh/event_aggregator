@@ -20,33 +20,42 @@ public class RegistrationViewModel extends ViewModel {
     private FirebaseAuth mAuth;
     private String email;
     private String password;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private boolean RegistrationSuccess = false;
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final MutableLiveData<Boolean> RegistrationSuccess = new MutableLiveData<>();
 
+    public void setRegistrationSuccess(boolean RegistrationSuccess) {
+        this.RegistrationSuccess.setValue(RegistrationSuccess);
+    }
 
-    public boolean registration(String email, String password){
+    public MutableLiveData<Boolean> getRegistrationSuccess() {
+        return RegistrationSuccess;
+    }
+
+    public void registration(String email, String password){
         mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        RegistrationSuccess = true;
+                        setRegistrationSuccess(true);
                         this.email = email;
                         this.password = password;
                         FirebaseUser user = mAuth.getCurrentUser();
+                        Log.d("Mytest", "   RegistrationAccess");
                         LoadDataToDataBase(user);
                     } else {
+                        setRegistrationSuccess(false);
                         Exception exception = task.getException();
                         if (exception != null) {
                             Log.e("Mytest", "Registration failed", exception);
                         }
                     }
                 });
-        return RegistrationSuccess;
     }
     public void LoadDataToDataBase(FirebaseUser user){
         String userId = user.getUid();
         DatabaseReference userRef = database.getReference("users/" + userId);
         userRef.child("password").setValue(password);
         userRef.child("email").setValue(email);
+        Log.d("Mytest", "CountOrganizedEvents set");
     }
 }

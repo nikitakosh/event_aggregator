@@ -15,9 +15,17 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginViewModel extends ViewModel {
     private FirebaseAuth mAuth;
-    private boolean signInSuccess = false;
+    private MutableLiveData<Boolean> signInSuccess = new MutableLiveData<>();
 
-    public boolean login(String email, String password){
+    public void setSignInSuccess(boolean signInSuccess) {
+        this.signInSuccess.setValue(signInSuccess);
+    }
+
+    public MutableLiveData<Boolean> getSignInSuccess() {
+        return signInSuccess;
+    }
+
+    public void login(String email, String password){
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -27,14 +35,14 @@ public class LoginViewModel extends ViewModel {
                             // Вход выполнен успешно, получаем информацию о пользователе
                             FirebaseUser user = mAuth.getCurrentUser();
                             Log.d("Mytest", "access");
-                            signInSuccess = true;
+                            setSignInSuccess(true);
                         } else {
                             // Вход не выполнен, выводим сообщение об ошибке
                             Log.d("Mytest", "error");
+                            setSignInSuccess(false);
                         }
                     }
                 });
-        return signInSuccess;
     }
 
 
