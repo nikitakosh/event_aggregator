@@ -65,6 +65,11 @@ public class CreateEventFragment extends Fragment {
                 NavHostFragment.findNavController(CreateEventFragment.this).navigate(R.id.eventFragment);
             }
         });
-
+        binding.GoBackToProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(CreateEventFragment.this).navigate(R.id.profileFragment);
+            }
+        });
     }
 }

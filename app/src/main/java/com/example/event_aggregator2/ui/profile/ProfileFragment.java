@@ -54,6 +54,7 @@ public class ProfileFragment extends Fragment {
                 }
                 else{
                     binding.IsOrganizer.setText("посетитель");
+                    binding.GoToCreateEvent.setVisibility(View.GONE);
                 }
             }
         });
@@ -66,7 +67,14 @@ public class ProfileFragment extends Fragment {
         viewModel.getAboutYourself().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                binding.AboutYourself.setText(s);
+                if (s.equals("")){
+                    binding.AboutYourself.setVisibility(View.GONE);
+                    binding.frame.setMaxHeight(20);
+                    binding.frame.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    binding.AboutYourself.setText(s);
+                }
             }
         });
         viewModel.getCity().observe(getViewLifecycleOwner(), new Observer<String>() {

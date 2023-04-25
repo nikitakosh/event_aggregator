@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,12 +68,9 @@ public class EventFragment extends Fragment {
                                 new CameraPosition(point, 20.0f, 0.0f, 0.0f),
                                 new Animation(Animation.Type.SMOOTH, 0),
                                 null);
-                        // Get the map object collection
-//                        MapObjectCollection mapObjects = binding.mapview.getMap().getMapObjects();
-//                        mapObjects.addPlacemark(point).setIcon(ImageProvider.fromResource(requireContext(), R.drawable.ic_marker));
                         PlacemarkMapObject mark = binding.mapview.getMap().getMapObjects().addPlacemark(point);
                         mark.setOpacity(0.5f);
-                        mark.setIcon(ImageProvider.fromResource(requireContext(), R.drawable.mark));
+                        mark.setIcon(ImageProvider.fromResource(requireContext(), R.drawable.ic_marker));
                         mark.setDraggable(true);
                     }
                 } catch (IOException e) {
@@ -90,6 +88,12 @@ public class EventFragment extends Fragment {
             @Override
             public void onChanged(String s) {
                 binding.description.setText(s);
+            }
+        });
+        binding.GoBackToCreateEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(EventFragment.this).navigate(R.id.createEventFragment);
             }
         });
     }

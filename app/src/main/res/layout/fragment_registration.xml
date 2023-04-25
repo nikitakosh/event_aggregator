@@ -17,9 +17,10 @@
         <View
             android:id="@+id/rectangle_1"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="700dp"
+            android:layout_marginBottom="280dp"
             android:background="@drawable/registration_rectangle"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="0dp" />
 
@@ -28,22 +29,22 @@
             android:id="@+id/view4"
             android:layout_width="290dp"
             android:layout_height="50dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/input_rectangle"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rectangle_1"
             tools:ignore="MissingConstraints" />
 
         <View
             android:id="@+id/view2"
             android:layout_width="290dp"
             android:layout_height="50dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/input_rectangle"
+            app:layout_constraintBottom_toTopOf="@+id/registration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view4"
             tools:ignore="MissingConstraints" />
 
         <EditText
@@ -79,7 +80,7 @@
             android:id="@+id/registration"
             android:layout_width="290dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="35dp"
             android:backgroundTint="@color/fourth"
             android:fontFamily="@font/inter"
             android:text="Зарегистрироваться"
@@ -87,6 +88,7 @@
             app:cornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
 

@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.security.spec.NamedParameterSpec;
 
 public class CreateProfileViewModel extends ViewModel {
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
     private MutableLiveData<Boolean> IsOrganizer = new MutableLiveData<>();
     private MutableLiveData<String> city = new MutableLiveData<>();
     private MutableLiveData<String> name = new MutableLiveData<>();
