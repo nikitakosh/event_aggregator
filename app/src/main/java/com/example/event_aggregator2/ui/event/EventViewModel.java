@@ -1,4 +1,4 @@
-package com.example.event_aggregator2.ui.home.event;
+package com.example.event_aggregator2.ui.event;
 
 import android.util.Log;
 

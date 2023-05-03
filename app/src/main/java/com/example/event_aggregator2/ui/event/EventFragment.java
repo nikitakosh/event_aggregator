@@ -1,4 +1,4 @@
-package com.example.event_aggregator2.ui.home.event;
+package com.example.event_aggregator2.ui.event;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

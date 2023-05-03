@@ -19,7 +19,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
+                <ImageView
+                    android:id="@+id/PhotoEvent"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/view40"
+                    app:layout_constraintTop_toBottomOf="@+id/view40"
+                    tools:ignore="MissingConstraints" />
                 <ImageView
                     android:id="@+id/GoBackToProfile"
                     android:layout_width="30dp"
@@ -126,7 +133,7 @@
                     app:cornerRadius="15dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view39" />
+                    app:layout_constraintTop_toBottomOf="@+id/PhotoEvent" />
 
                 <View
                     android:id="@+id/view36"
@@ -154,6 +161,37 @@
                     app:layout_constraintHorizontal_bias="0.492"
                     app:layout_constraintStart_toStartOf="@+id/view36"
                     app:layout_constraintTop_toTopOf="@+id/view36" />
+
+                <View
+                    android:id="@+id/view40"
+                    android:layout_width="350dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/input_rectangle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view39" />
+
+                <ImageView
+                    android:id="@+id/LoadImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/view40"
+                    app:layout_constraintStart_toStartOf="@+id/view40"
+                    app:layout_constraintTop_toTopOf="@+id/view40"
+                    app:srcCompat="@drawable/load_from_gallery" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Загрузить фотографию"
+                    android:textSize="19sp"
+                    app:layout_constraintEnd_toEndOf="@+id/view40"
+                    app:layout_constraintStart_toEndOf="@+id/LoadImage"
+                    tools:layout_editor_absoluteY="677dp"
+                    tools:ignore="MissingConstraints" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

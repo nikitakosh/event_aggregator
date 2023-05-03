@@ -94,8 +94,10 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_min="50dp"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
@@ -171,7 +173,7 @@
             tools:ignore="MissingConstraints" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/GoToHome"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="15dp"
@@ -179,5 +181,48 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/go_back" />
+
+        <View
+            android:id="@+id/view45"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/input_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
+
+        <ImageView
+            android:id="@+id/LoadFromGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view45"
+            app:layout_constraintStart_toStartOf="@+id/view45"
+            app:layout_constraintTop_toTopOf="@+id/view45"
+            app:srcCompat="@drawable/load_from_gallery" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/inter"
+            android:text="Загрузить фотографию"
+            android:textSize="19sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view45"
+            app:layout_constraintEnd_toEndOf="@+id/view45"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/LoadFromGallery"
+            app:layout_constraintTop_toTopOf="@+id/view45" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/PhotoProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@+id/view45"
+            app:layout_constraintTop_toBottomOf="@+id/view45"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

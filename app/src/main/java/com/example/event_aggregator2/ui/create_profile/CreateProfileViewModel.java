@@ -1,22 +1,36 @@
 package com.example.event_aggregator2.ui.create_profile;
 
+import static com.yandex.runtime.Runtime.getApplicationContext;
+
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.security.spec.NamedParameterSpec;
 
 public class CreateProfileViewModel extends ViewModel {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private String imageUrl;
+
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private MutableLiveData<Boolean> IsOrganizer = new MutableLiveData<>();
     private MutableLiveData<String> city = new MutableLiveData<>();
     private MutableLiveData<String> name = new MutableLiveData<>();
@@ -25,6 +39,7 @@ public class CreateProfileViewModel extends ViewModel {
     private MutableLiveData<String> email = new MutableLiveData<>();
     private MutableLiveData<String> password = new MutableLiveData<>();
     private MutableLiveData<String> AboutYourself = new MutableLiveData<>();
+
 
     public MutableLiveData<Boolean> getIsOrganizer() {
         return IsOrganizer;
@@ -123,5 +138,34 @@ public class CreateProfileViewModel extends ViewModel {
         userRef.child("AboutYourself").setValue(AboutYourself);
         userRef.child("email").setValue(email);
         userRef.child("IsOrganizer").setValue(IsOrganizer);
+    }
+    public void UploadImageToDataBase(Bitmap profileImage){
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        StorageReference storageRef = storage.getReference().child(userId);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        profileImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] dataBytes = baos.toByteArray();
+        StorageReference imageRef = storageRef.child("profileImage.jpg");
+        UploadTask uploadTask = imageRef.putBytes(dataBytes);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d("Mytest", "картинка незагружена");
+                Log.d("Mytest", String.valueOf(exception));
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d("Mytest", "картинка загружена");
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        imageUrl = uri.toString();
+                        DatabaseReference databaseRef = database.getReference();
+                        databaseRef.child("users").child(userId).child("profileImage").setValue(imageUrl);
+                    }
+                });
+            }
+        });
     }
 }
