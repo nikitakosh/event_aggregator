@@ -81,24 +81,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_add_friend:
-                        NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.addFriendFragment);
-                        break;
-                    case R.id.nav_profile:
-                        NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.profileFragment);
-                        break;
-                    case R.id.nav_chat:
-//                        NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.chatFragment);
-                        break;
-                }
-                return true;
-            }
-        });
     }
     public void onStop() {
         binding.mapview.onStop();

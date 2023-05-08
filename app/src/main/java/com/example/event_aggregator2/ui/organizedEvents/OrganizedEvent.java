@@ -7,9 +7,19 @@ import com.example.event_aggregator2.ui.event.EventFragment;
 public class OrganizedEvent {
     private String title;
     private String eventUri;
-    public OrganizedEvent(String title, String eventUri){
+    private String idEvent;
+    public OrganizedEvent(String title, String eventUri, String idEvent){
         this.title = title;
         this.eventUri = eventUri;
+        this.idEvent = idEvent;
+    }
+
+    public void setIdEvent(String idEvent) {
+        this.idEvent = idEvent;
+    }
+
+    public String getIdEvent() {
+        return idEvent;
     }
 
     public void setEventUri(String eventUri) {

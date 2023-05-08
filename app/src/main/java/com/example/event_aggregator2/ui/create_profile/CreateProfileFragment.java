@@ -1,5 +1,6 @@
 package com.example.event_aggregator2.ui.create_profile;
 
+import static android.app.Activity.RESULT_OK;
 import static com.yandex.runtime.Runtime.getApplicationContext;
 
 import android.Manifest;
@@ -51,8 +52,7 @@ import java.util.Objects;
 
 
 public class CreateProfileFragment extends Fragment {
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    Bitmap profileImage;
+    static final int GALLERY_REQUEST = 1;
 
     private CreateProfileViewModel viewModel;
     private FragmentCreateProfileBinding binding;
@@ -61,11 +61,6 @@ public class CreateProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(CreateProfileViewModel.class);
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // Разрешение на использование камеры не было предоставлено
-            // Запрашиваем разрешение
-            ActivityCompat.requestPermissions(requireActivity(), new String[] { Manifest.permission.CAMERA }, 1);
-        }
         FirebaseApp.initializeApp(requireContext());
     }
 
@@ -133,7 +128,6 @@ public class CreateProfileFragment extends Fragment {
                     IsOrganizer = false;
                 }
                 viewModel.LoadDataToDataBase(name, surname, city, AboutYourself, email, IsOrganizer);
-                viewModel.UploadImageToDataBase(((BitmapDrawable) binding.PhotoProfile.getDrawable()).getBitmap());
                 NavHostFragment.findNavController(CreateProfileFragment.this).navigate(R.id.profileFragment);
             }
         });
@@ -146,18 +140,32 @@ public class CreateProfileFragment extends Fragment {
         binding.LoadFromGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
             }
         });
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == -1) {
-            Bundle extras = data.getExtras();
-            profileImage = (Bitmap) extras.get("data");
-            binding.PhotoProfile.setImageBitmap(profileImage);
+        Bitmap bitmap = null;
+        Log.d("Mytest", String.valueOf(requestCode));
+        Log.d("Mytest", String.valueOf(GALLERY_REQUEST));
+        switch(requestCode) {
+            case GALLERY_REQUEST:
+                Log.d("Mytest", "case");
+                if(resultCode == RESULT_OK){
+                    Log.d("Mytest", "if");
+                    Uri selectedImage = data.getData();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    binding.PhotoProfile.setImageBitmap(bitmap);
+                    viewModel.UploadImageToDataBase(((BitmapDrawable) binding.PhotoProfile.getDrawable()).getBitmap());
+                }
         }
     }
     public void GetImageFromDataBase(){

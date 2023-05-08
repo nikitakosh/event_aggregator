@@ -1,6 +1,52 @@
 package com.example.event_aggregator2.ui.organizedEvents;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+
 public class OrganizedEventsViewModel extends ViewModel {
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private MutableLiveData<OrganizedEvent> organizedEvent = new MutableLiveData<>();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    public void setOrganizedEvent(OrganizedEvent organizedEvent) {
+        this.organizedEvent.setValue(organizedEvent);
+    }
+
+    public MutableLiveData<OrganizedEvent> getOrganizedEvent() {
+        return organizedEvent;
+    }
+
+    public void GetDataFromDataBase(){
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = database.getReference("users/").child(userId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot CreatedEvent : dataSnapshot.child("CreatedEvents").getChildren()){
+                    String title = CreatedEvent.child("topic").getValue(String.class);
+                    String idEvent = CreatedEvent.getKey();
+                    String uri = CreatedEvent.child("imageEvent").getValue(String.class);
+                    OrganizedEvent organizedEvent = new OrganizedEvent(title, uri, idEvent);
+                    Log.d("Mytest", "viewmodel" + organizedEvent.getTitle());
+                    setOrganizedEvent(organizedEvent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Обработка ошибок
+            }
+        });
+    }
 }

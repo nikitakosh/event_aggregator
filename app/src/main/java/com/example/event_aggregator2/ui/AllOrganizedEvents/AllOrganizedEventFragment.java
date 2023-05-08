@@ -1,5 +1,6 @@
-package com.example.event_aggregator2.ui.organizedEvents;
+package com.example.event_aggregator2.ui.AllOrganizedEvents;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,46 +14,58 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.event_aggregator2.databinding.FragmentOrganizedEventsBinding;
-import com.example.event_aggregator2.ui.create_profile.CreateProfileViewModel;
+import com.example.event_aggregator2.R;
+import com.example.event_aggregator2.databinding.FragmentAllOrganizedEventBinding;
+import com.example.event_aggregator2.ui.organizedEvents.OrganizedEvent;
+import com.example.event_aggregator2.ui.organizedEvents.OrganizedEventsAdapter;
+import com.example.event_aggregator2.ui.profile.ProfileFragment;
+import com.example.event_aggregator2.ui.visitedEvents.VisitedEventsViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class OrganizedEventsFragment extends Fragment {
-    private OrganizedEventsViewModel viewModel;
+
+public class AllOrganizedEventFragment extends Fragment {
+    private String title;
+    private String uri;
+    FragmentAllOrganizedEventBinding binding;
+    AllOrganizedEventsViewModel viewModel;
     private ArrayList<OrganizedEvent> organizedEvents = new ArrayList<>();
-    private FragmentOrganizedEventsBinding binding;
-    private OrganizedEventsAdapter organizedEventsAdapter;
+    OrganizedEventsAdapter organizedEventsAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(OrganizedEventsViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(AllOrganizedEventsViewModel.class);
+
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentOrganizedEventsBinding.inflate(inflater);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentAllOrganizedEventBinding.inflate(inflater);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.OrganizedEvents.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.AllOrganizedEvents.setLayoutManager(new LinearLayoutManager(getActivity()));
         viewModel.GetDataFromDataBase();
-        NavController navController = NavHostFragment.findNavController(OrganizedEventsFragment.this);
+        NavController navController = NavHostFragment.findNavController(AllOrganizedEventFragment.this);
         viewModel.getOrganizedEvent().observe(getViewLifecycleOwner(), new Observer<OrganizedEvent>() {
             @Override
             public void onChanged(OrganizedEvent organizedEvent) {
                 if (organizedEvent != null){
-                    Log.d("Mytest", "fragment" + organizedEvent.getTitle());
                     organizedEvents.add(organizedEvent);
                     organizedEventsAdapter = new OrganizedEventsAdapter(organizedEvents, requireContext(), navController);
-                    binding.OrganizedEvents.setAdapter(organizedEventsAdapter);
+                    binding.AllOrganizedEvents.setAdapter(organizedEventsAdapter);
                 }
+
             }
         });
 
@@ -60,10 +73,12 @@ public class OrganizedEventsFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         viewModel.setOrganizedEvent(null);
         if(organizedEventsAdapter != null){
             organizedEventsAdapter.clear();
         }
+        super.onDestroyView();
     }
+
+
 }

@@ -25,6 +25,7 @@ import java.util.UUID;
 
 public class CreateEventViewModel extends ViewModel {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static String idEvent;
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private MutableLiveData<String> address = new MutableLiveData<>();
@@ -57,9 +58,10 @@ public class CreateEventViewModel extends ViewModel {
         return description;
     }
 
-    public void LoadDataToDataBase(String address, String topic, String description, String date, Bitmap eventImage) {
+    public String LoadDataToDataBase(String address, String topic, String description, String date, Bitmap eventImage) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference userRef = database.getReference("users/" + userId + "/CreatedEvents/").push();
+        idEvent = userRef.getKey();
         userRef.child("address").setValue(address);
         userRef.child("topic").setValue(topic);
         userRef.child("description").setValue(description);
@@ -89,6 +91,7 @@ public class CreateEventViewModel extends ViewModel {
                 });
             }
         });
+        return idEvent;
     }
 }
 

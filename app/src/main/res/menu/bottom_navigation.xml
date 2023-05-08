@@ -6,18 +6,13 @@
         android:icon="@drawable/profile_home"
         />
     <item
-        android:id="@+id/nav_add_friend"
-        android:title="найти друга"
-        android:icon="@drawable/add_friend"
-        />
-    <item
         android:id="@+id/nav_profile"
         android:title="профиль"
         android:icon="@drawable/go_to_profile"
         />
     <item
         android:id="@+id/nav_chat"
-        android:title="беседы"
+        android:title="мероприятия"
         android:icon="@drawable/chat"
         />
 </menu>

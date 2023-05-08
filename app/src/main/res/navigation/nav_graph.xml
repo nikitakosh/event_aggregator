@@ -41,11 +41,6 @@
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile"/>
     <fragment
-        android:id="@+id/allVisitedEventsFragment"
-        android:name="com.example.event_aggregator2.ui.profile.AllVisitedEventsFragment"
-        android:label="AllVisitedEventsFragment"
-        tools:layout="@layout/fragment_all_visited_events"/>
-    <fragment
         android:id="@+id/eventFragment"
         android:name="com.example.event_aggregator2.ui.event.EventFragment"
         android:label="EventFragment"
@@ -80,4 +75,15 @@
         android:name="com.example.event_aggregator2.ui.organizedEvents.OrganizedEventsFragment"
         android:label="OrganizedEventsFragment"
         tools:layout="@layout/fragment_organized_events"/>
+    <fragment
+        android:id="@+id/allOrganizedEventFragment"
+        android:name="com.example.event_aggregator2.ui.AllOrganizedEvents.AllOrganizedEventFragment"
+        android:label="AllOrganizedEventFragment"
+        tools:layout="@layout/fragment_all_organized_event"/>
+    <fragment
+        android:id="@+id/visitedEventsFragment"
+        android:name="com.example.event_aggregator2.ui.visitedEvents.VisitedEventsFragment"
+        android:label="VisitedEventsFragment"
+        tools:layout="@layout/fragment_visited_events"/>
+
 </navigation>

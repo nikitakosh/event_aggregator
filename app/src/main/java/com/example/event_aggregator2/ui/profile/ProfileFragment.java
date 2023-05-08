@@ -1,5 +1,7 @@
 package com.example.event_aggregator2.ui.profile;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,19 +15,24 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.event_aggregator2.R;
 import com.example.event_aggregator2.databinding.FragmentMainBinding;
 import com.example.event_aggregator2.databinding.FragmentProfileBinding;
 import com.example.event_aggregator2.databinding.FragmentRegistrationBinding;
 import com.example.event_aggregator2.ui.create_profile.CreateProfileViewModel;
+import com.example.event_aggregator2.ui.home.HomeFragment;
 import com.example.event_aggregator2.ui.main.MainViewModel;
 import com.example.event_aggregator2.ui.registration.RegistrationViewModel;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -53,8 +60,16 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel.LoadOrganizedEventFromDataBase();
+        viewModel.LoadVisitedEventFromDataBase();
         viewModel.GetDataFromDataBase();
-        GetProfileImageFromDataBase();
+        viewModel.GetProfileImageFromDataBase();
+        viewModel.getProfilePhotoUri().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String uri) {
+                Glide.with(requireActivity()).load(uri).into(binding.PhotoProfile);
+            }
+        });
         viewModel.getIsOrganizer().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -64,6 +79,10 @@ public class ProfileFragment extends Fragment {
                 else{
                     binding.IsOrganizer.setText("посетитель");
                     binding.GoToCreateEvent.setVisibility(View.GONE);
+                    binding.textView16.setVisibility(View.GONE);
+                    binding.photoCreatedEvent.setVisibility(View.GONE);
+                    binding.GoToOrganizedEventsFragment.setVisibility(View.GONE);
+                    binding.titleCreatedEvent.setVisibility(View.GONE);
                 }
             }
         });
@@ -98,24 +117,13 @@ public class ProfileFragment extends Fragment {
                 NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.createProfileFragment);
             }
         });
-        binding.SeeAllVisitedEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.allVisitedEventsFragment);
-            }
-        });
         binding.ToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.homeFragment);
             }
         });
-        binding.event1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.eventFragment);
-            }
-        });
+
         binding.GoToCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,19 +136,63 @@ public class ProfileFragment extends Fragment {
                 NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.organizedEventsFragment);
             }
         });
-
-    }
-    public void GetProfileImageFromDataBase(){
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        StorageReference storageRef = storage.getReference().child(userId);
-        storageRef.child("profileImage.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        viewModel.getPhotoCreatedEvent().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onSuccess(Uri uri) {
-                if (!TextUtils.isEmpty(uri.toString())) {
-                    Glide.with(requireActivity()).load(uri).into(binding.PhotoProfile);
-                }
+            public void onChanged(String s) {
+                Glide.with(requireActivity())
+                        .asBitmap()
+                        .load(s)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                Bitmap scaledImage = Bitmap.createScaledBitmap(resource, 70, 70, true);
+                                binding.photoCreatedEvent.setImageBitmap(scaledImage);
+
+                            }
+                        });
             }
         });
+        viewModel.getTitleCreatedEvent().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.titleCreatedEvent.setText(s);
+            }
+        });
+        viewModel.getPhotoVisitedEvent().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Glide.with(requireActivity())
+                        .asBitmap()
+                        .load(s)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                Bitmap scaledImage = Bitmap.createScaledBitmap(resource, 70, 70, true);
+                                binding.VisitedEventPhoto.setImageBitmap(scaledImage);
+
+                            }
+                        });
+            }
+        });
+        viewModel.getTitleVisitedEvent().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.VisitedEventTitle.setText(s);
+            }
+        });
+        binding.GoToAllCreatedEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.allOrganizedEventFragment);
+            }
+        });
+        binding.SeeAllVisitedEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.visitedEventsFragment);
+            }
+        });
+
     }
+
 }

@@ -1,18 +1,15 @@
-package com.example.event_aggregator2.ui.organizedEvents;
+package com.example.event_aggregator2.ui.visitedEvents;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,35 +17,38 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.event_aggregator2.R;
 import com.example.event_aggregator2.databinding.OrganizedEventItemBinding;
+import com.example.event_aggregator2.databinding.VisitedEventItemBinding;
+import com.example.event_aggregator2.ui.organizedEvents.OrganizedEvent;
+import com.example.event_aggregator2.ui.organizedEvents.OrganizedEventsAdapter;
 
 import java.util.ArrayList;
 
-public class OrganizedEventsAdapter extends RecyclerView.Adapter<OrganizedEventsAdapter.Adapter> {
-    private ArrayList<OrganizedEvent> OrganizedEvents;
+public class VisitedEventsAdapter extends RecyclerView.Adapter<VisitedEventsAdapter.Adapter>{
+    private ArrayList<VisitedEvent> VisitedEvents;
     private LayoutInflater inflater;
     private Context context;
-    private NavController navController;
+    NavController navController;
 
 
-    public OrganizedEventsAdapter(ArrayList<OrganizedEvent> organizedEvents, Context context, NavController navController) {
-        this.OrganizedEvents = organizedEvents;
+    public VisitedEventsAdapter(ArrayList<VisitedEvent> visitedEvents, Context context, NavController navController) {
+        this.VisitedEvents = visitedEvents;
         this.context = context;
         this.navController = navController;
     }
 
     @NonNull
     @Override
-    public OrganizedEventsAdapter.Adapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VisitedEventsAdapter.Adapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(inflater==null){
             inflater = LayoutInflater.from(parent.getContext());
         }
-        OrganizedEventItemBinding binding = OrganizedEventItemBinding.inflate(inflater, parent, false);
+        VisitedEventItemBinding binding = VisitedEventItemBinding.inflate(inflater, parent, false);
         return new Adapter(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrganizedEventsAdapter.Adapter holder, int position) {
-        OrganizedEvent event = OrganizedEvents.get(position);
+    public void onBindViewHolder(@NonNull VisitedEventsAdapter.Adapter holder, int position) {
+        VisitedEvent event = VisitedEvents.get(position);
         holder.binding.title.setText(event.getTitle());
         Glide.with(holder.itemView.getContext())
                 .asBitmap()
@@ -61,7 +61,7 @@ public class OrganizedEventsAdapter extends RecyclerView.Adapter<OrganizedEvents
                     }
                 });
         Bundle bundle = new Bundle();
-        bundle.putString("idEvent", event.getIdEvent());
+        bundle.putString("idEvent", event.getEventId());
 
         holder.binding.eventImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,24 +73,24 @@ public class OrganizedEventsAdapter extends RecyclerView.Adapter<OrganizedEvents
 
     @Override
     public int getItemCount() {
-        return OrganizedEvents.size();
+        return VisitedEvents.size();
     }
 
     public class Adapter extends RecyclerView.ViewHolder {
-        private OrganizedEventItemBinding binding;
-        public Adapter(OrganizedEventItemBinding binding) {
+        private VisitedEventItemBinding binding;
+        public Adapter(VisitedEventItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
-//        public void bind(OrganizedEvent organizedEvent, @NonNull OrganizedEventsAdapter.Adapter holder){
-////            binding.title.setText(organizedEvent.getTitle());
-//
+//        public void bind(VisitedEvent visitedEvent, @NonNull VisitedEventsAdapter.Adapter holder){
+//            binding.title.setText(visitedEvent.getTitle());
+//            Glide.with(holder.itemView.getContext()).load(visitedEvent.getEventUri()).into(binding.eventImage);
 //        }
-        public OrganizedEventItemBinding getOrganizedEventItemBinding(){
+        public VisitedEventItemBinding getVisitedEventItemBinding(){
             return this.binding;
         }
     }
     public void clear(){
-        OrganizedEvents.clear();
+        VisitedEvents.clear();
     }
 }

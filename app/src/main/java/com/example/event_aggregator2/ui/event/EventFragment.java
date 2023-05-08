@@ -2,6 +2,7 @@ package com.example.event_aggregator2.ui.event;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -15,10 +16,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.event_aggregator2.R;
 import com.example.event_aggregator2.databinding.FragmentEventBinding;
 import com.yandex.mapkit.Animation;
@@ -54,7 +59,16 @@ public class EventFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.GetDataFromDataBase();
+        String idEvent = getArguments().getString("idEvent");
+        viewModel.GetDataFromDataBase(idEvent);
+        viewModel.EventIsVisited(idEvent);
+        viewModel.getEventIsVisited().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                binding.visit.setVisibility(View.GONE);
+            }
+        });
+
         viewModel.getAddress().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
@@ -93,7 +107,29 @@ public class EventFragment extends Fragment {
         binding.GoBackToCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(EventFragment.this).navigate(R.id.createEventFragment);
+                NavHostFragment.findNavController(EventFragment.this).navigate(R.id.profileFragment);
+            }
+        });
+        viewModel.getPhotoEventUri().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Glide.with(requireActivity())
+                        .asBitmap()
+                        .load(s)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                Bitmap scaledImage = Bitmap.createScaledBitmap(resource, binding.PhotoEvent.getWidth(), binding.PhotoEvent.getHeight(), true);
+                                binding.PhotoEvent.setImageBitmap(scaledImage);
+
+                            }
+                        });
+            }
+        });
+        binding.visit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.VisitEvent();
             }
         });
     }

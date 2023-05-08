@@ -1,11 +1,14 @@
 package com.example.event_aggregator2.ui.create_event;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,13 +32,14 @@ import com.example.event_aggregator2.databinding.FragmentCreateEventBinding;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.FirebaseApp;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class CreateEventFragment extends Fragment {
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int GALLERY_REQUEST = 1;
     Bitmap eventImage;
     CreateEventViewModel viewModel;
     FragmentCreateEventBinding binding;
@@ -43,11 +47,6 @@ public class CreateEventFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(CreateEventViewModel.class);
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // Разрешение на использование камеры не было предоставлено
-            // Запрашиваем разрешение
-            ActivityCompat.requestPermissions(requireActivity(), new String[] { Manifest.permission.CAMERA }, 1);
-        }
         FirebaseApp.initializeApp(requireContext());
     }
 
@@ -77,8 +76,10 @@ public class CreateEventFragment extends Fragment {
                 String address = binding.address.getText().toString();
                 String description = binding.description.getText().toString();
                 String topic = binding.topic.getText().toString();
-                viewModel.LoadDataToDataBase(address, topic, description, formattedDate, ((BitmapDrawable)binding.PhotoEvent.getDrawable()).getBitmap());
-                NavHostFragment.findNavController(CreateEventFragment.this).navigate(R.id.eventFragment);
+                String idEvent = viewModel.LoadDataToDataBase(address, topic, description, formattedDate, ((BitmapDrawable)binding.PhotoEvent.getDrawable()).getBitmap());
+                Bundle bundle = new Bundle();
+                bundle.putString("idEvent", idEvent);
+                NavHostFragment.findNavController(CreateEventFragment.this).navigate(R.id.eventFragment, bundle);
             }
         });
         binding.GoBackToProfile.setOnClickListener(new View.OnClickListener() {
@@ -90,8 +91,9 @@ public class CreateEventFragment extends Fragment {
         binding.LoadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
             }
         });
 
@@ -99,10 +101,22 @@ public class CreateEventFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == -1) {
-            Bundle extras = data.getExtras();
-            eventImage = (Bitmap) extras.get("data");
-            binding.PhotoEvent.setImageBitmap(eventImage);
+        Bitmap bitmap = null;
+        Log.d("Mytest", String.valueOf(requestCode));
+        Log.d("Mytest", String.valueOf(GALLERY_REQUEST));
+        switch(requestCode) {
+            case GALLERY_REQUEST:
+                Log.d("Mytest", "case");
+                if(resultCode == RESULT_OK){
+                    Log.d("Mytest", "if");
+                    Uri selectedImage = data.getData();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    binding.PhotoEvent.setImageBitmap(bitmap);
+                }
         }
     }
 }

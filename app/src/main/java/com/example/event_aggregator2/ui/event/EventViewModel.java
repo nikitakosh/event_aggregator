@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.event_aggregator2.ui.organizedEvents.OrganizedEvent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,13 +16,31 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class EventViewModel extends ViewModel {
-
+    private MutableLiveData<Boolean> eventIsVisited = new MutableLiveData<>();
+    private String idEvent;
+    private String userId;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private MutableLiveData<String> photoEventUri = new MutableLiveData<>();
     private MutableLiveData<String> date = new MutableLiveData<>();
     private MutableLiveData<String> address = new MutableLiveData<>();
     private MutableLiveData<String> topic = new MutableLiveData<>();
     private MutableLiveData<String> description = new MutableLiveData<>();
 
+    public void setEventIsVisited(boolean eventIsVisited) {
+        this.eventIsVisited.setValue(eventIsVisited);
+    }
+
+    public MutableLiveData<Boolean> getEventIsVisited() {
+        return eventIsVisited;
+    }
+
+    public MutableLiveData<String> getPhotoEventUri() {
+        return photoEventUri;
+    }
+
+    public void setPhotoEventUri(String photoEventUri) {
+        this.photoEventUri.setValue(photoEventUri);
+    }
 
     public void setDate(String date) {
         this.date.setValue(date);
@@ -55,30 +74,77 @@ public class EventViewModel extends ViewModel {
         return description;
     }
 
-    public void GetDataFromDataBase(){
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference userRef = database.getReference("users/" + userId + "/CreatedEvents/" );
-        Query lastQuery = userRef.orderByKey().limitToLast(1);
-        lastQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void GetDataFromDataBase(String idEvent){
+        this.idEvent = idEvent;
+        DatabaseReference userRef = database.getReference("users/");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DataSnapshot event = dataSnapshot.getChildren().iterator().next();
-                Log.d("Mytest", "dwefwefw " + event);
-                String address = event.child("address").getValue(String.class);
-                Log.d("Mytest", "dcwefwfw " + address);
-                String description = event.child("description").getValue(String.class);
-                String topic = event.child("topic").getValue(String.class);
-                String date = event.child("date").getValue(String.class);
-                setDate(date);
-                setAddress(address);
-                setTopic(topic);
-                setDescription(description);
-            }
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    for(DataSnapshot CreatedEvent : userSnapshot.child("CreatedEvents").getChildren()){
+                        if(idEvent.equals(CreatedEvent.getKey())){
+                            String address = CreatedEvent.child("address").getValue(String.class);
+                            String description = CreatedEvent.child("description").getValue(String.class);
+                            String topic = CreatedEvent.child("topic").getValue(String.class);
+                            String date = CreatedEvent.child("date").getValue(String.class);
+                            userId = userSnapshot.getKey();
+                            UploadImageFromDataBase();
+                            setDate(date);
+                            setAddress(address);
+                            setTopic(topic);
+                            setDescription(description);
+                        }
 
+                    }
+                }
+            }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("Ошибка получения данных из базы данных: " + databaseError.getMessage());
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
+    public void UploadImageFromDataBase(){
+        DatabaseReference userRef = database.getReference("users/");
+        userRef.child(userId).child("CreatedEvents").child(idEvent).child("imageEvent").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String uri = snapshot.getValue(String.class);
+                setPhotoEventUri(uri);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void VisitEvent(){
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = database.getReference("users/");
+        userRef.child(userId).child("VisitedEvents").push().setValue(idEvent);
+    }
+    public void EventIsVisited(String idEvent){
+        Log.d("Mytest", "base-idEvent " + idEvent);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userRef = database.getReference("users/").child(userId).child("VisitedEvents");
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot VisitedEvent : snapshot.getChildren()){
+                    Log.d("Mytest", "other " + VisitedEvent.getValue(String.class));
+                    if(idEvent.equals(VisitedEvent.getValue(String.class))){
+                        setEventIsVisited(true);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }
