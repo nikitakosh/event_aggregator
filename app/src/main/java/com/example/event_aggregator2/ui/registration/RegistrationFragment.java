@@ -42,9 +42,13 @@ public class RegistrationFragment extends Fragment {
         binding.registration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = binding.email.getText().toString();
-                String password = binding.password.getText().toString();
-                viewModel.registration(email, password);
+                try{
+                    String email = binding.email.getText().toString();
+                    String password = binding.password.getText().toString();
+                    viewModel.registration(email, password);
+                } catch (IllegalArgumentException e) {
+                    Toast.makeText(getContext(), "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         viewModel.getRegistrationSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>() {

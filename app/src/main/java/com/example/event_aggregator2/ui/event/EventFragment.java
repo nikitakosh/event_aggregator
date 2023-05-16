@@ -113,17 +113,22 @@ public class EventFragment extends Fragment {
         viewModel.getPhotoEventUri().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                Glide.with(requireActivity())
-                        .asBitmap()
-                        .load(s)
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                Bitmap scaledImage = Bitmap.createScaledBitmap(resource, binding.PhotoEvent.getWidth(), binding.PhotoEvent.getHeight(), true);
-                                binding.PhotoEvent.setImageBitmap(scaledImage);
+                try{
+                    Glide.with(requireActivity())
+                            .asBitmap()
+                            .load(s)
+                            .into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    Bitmap scaledImage = Bitmap.createScaledBitmap(resource, binding.PhotoEvent.getWidth(), binding.PhotoEvent.getHeight(), true);
+                                    binding.PhotoEvent.setImageBitmap(scaledImage);
 
-                            }
-                        });
+                                }
+                            });
+                } catch (NullPointerException e) {
+                    Log.d("Mytest", e.toString());
+                }
+
             }
         });
         binding.visit.setOnClickListener(new View.OnClickListener() {

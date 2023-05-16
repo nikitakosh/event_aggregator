@@ -6,7 +6,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import com.example.event_aggregator2.R;
 import com.example.event_aggregator2.databinding.FragmentCreateEventBinding;
@@ -60,6 +63,7 @@ public class CreateEventFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.PhotoEvent.setImageResource(R.drawable.create_event);
         Calendar selectedDate = Calendar.getInstance();
         binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -70,16 +74,24 @@ public class CreateEventFragment extends Fragment {
         binding.createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("SimpleDateFormat")
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String formattedDate = dateFormat.format(selectedDate.getTime());
-                String address = binding.address.getText().toString();
-                String description = binding.description.getText().toString();
-                String topic = binding.topic.getText().toString();
-                String idEvent = viewModel.LoadDataToDataBase(address, topic, description, formattedDate, ((BitmapDrawable)binding.PhotoEvent.getDrawable()).getBitmap());
-                Bundle bundle = new Bundle();
-                bundle.putString("idEvent", idEvent);
-                NavHostFragment.findNavController(CreateEventFragment.this).navigate(R.id.eventFragment, bundle);
+                try{
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                    String formattedDate = dateFormat.format(selectedDate.getTime());
+                    String address = binding.address.getText().toString();
+                    String description = binding.description.getText().toString();
+                    String topic = binding.topic.getText().toString();
+                    if (address.equals("") || description.equals("") || topic.equals("")){
+                        Toast.makeText(getContext(), "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
+                    }else{
+                        String idEvent = viewModel.LoadDataToDataBase(address, topic, description, formattedDate, ((BitmapDrawable)binding.PhotoEvent.getDrawable()).getBitmap());
+                        Bundle bundle = new Bundle();
+                        bundle.putString("idEvent", idEvent);
+                        NavHostFragment.findNavController(CreateEventFragment.this).navigate(R.id.eventFragment, bundle);
+                    }
+
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         binding.GoBackToProfile.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +127,8 @@ public class CreateEventFragment extends Fragment {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    binding.PhotoEvent.setImageBitmap(bitmap);
+                    Bitmap scaledImage = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+                    binding.PhotoEvent.setImageBitmap(scaledImage);
                 }
         }
     }

@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.event_aggregator2.R;
@@ -74,6 +75,7 @@ public class CreateProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.PhotoProfile.setImageResource(R.drawable.ava);
         viewModel.GetDataFromDataBase();
         GetImageFromDataBase();
         viewModel.getName().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -115,26 +117,49 @@ public class CreateProfileFragment extends Fragment {
         binding.CreateProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = binding.name.getText().toString();
-                String surname = binding.surname.getText().toString();
-                String city = binding.city.getText().toString();
-                String AboutYourself = binding.AboutYorself.getText().toString();
-                String email = binding.email.getText().toString();
                 boolean IsOrganizer;
-                if (binding.IsOrganizer.isChecked()){
-                    IsOrganizer = true;
+                try{
+                    String name = binding.name.getText().toString();
+                    String surname = binding.surname.getText().toString();
+                    String city = binding.city.getText().toString();
+                    String AboutYourself = binding.AboutYorself.getText().toString();
+                    String email = binding.email.getText().toString();
+                    IsOrganizer = binding.IsOrganizer.isChecked();
+                    if (name.equals("") || surname.equals("") || city.equals("") || AboutYourself.equals("") || email.equals("")){
+                        Toast.makeText(getContext(), "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
+                    }else {
+                        viewModel.LoadDataToDataBase(name, surname, city, AboutYourself, email, IsOrganizer);
+                        viewModel.UploadImageToDataBase(((BitmapDrawable) binding.PhotoProfile.getDrawable()).getBitmap());
+                        NavHostFragment.findNavController(CreateProfileFragment.this).navigate(R.id.profileFragment);
+                    }
+                } catch (IllegalArgumentException e) {
+                    Toast.makeText(getContext(), "Ошибка", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    IsOrganizer = false;
-                }
-                viewModel.LoadDataToDataBase(name, surname, city, AboutYourself, email, IsOrganizer);
-                NavHostFragment.findNavController(CreateProfileFragment.this).navigate(R.id.profileFragment);
+
             }
         });
         binding.GoToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(CreateProfileFragment.this).navigate(R.id.profileFragment);
+                boolean IsOrganizer;
+                try{
+                    String name = binding.name.getText().toString();
+                    String surname = binding.surname.getText().toString();
+                    String city = binding.city.getText().toString();
+                    String AboutYourself = binding.AboutYorself.getText().toString();
+                    String email = binding.email.getText().toString();
+                    IsOrganizer = binding.IsOrganizer.isChecked();
+                    if (name.equals("") || surname.equals("") || city.equals("") || AboutYourself.equals("") || email.equals("")){
+                        Toast.makeText(getContext(), "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
+                    }else {
+                        viewModel.LoadDataToDataBase(name, surname, city, AboutYourself, email, IsOrganizer);
+                        viewModel.UploadImageToDataBase(((BitmapDrawable) binding.PhotoProfile.getDrawable()).getBitmap());
+                        NavHostFragment.findNavController(CreateProfileFragment.this).navigate(R.id.profileFragment);
+                    }
+                } catch (IllegalArgumentException e) {
+                    Toast.makeText(getContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         binding.LoadFromGallery.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +189,6 @@ public class CreateProfileFragment extends Fragment {
                         e.printStackTrace();
                     }
                     binding.PhotoProfile.setImageBitmap(bitmap);
-                    viewModel.UploadImageToDataBase(((BitmapDrawable) binding.PhotoProfile.getDrawable()).getBitmap());
                 }
         }
     }

@@ -41,7 +41,6 @@ import com.google.firebase.storage.StorageReference;
 public class ProfileFragment extends Fragment {
     private ProfileViewModel viewModel;
     private FragmentProfileBinding binding;
-    private CreateProfileViewModel createProfileViewModel;
 
 
     @Override
@@ -64,10 +63,48 @@ public class ProfileFragment extends Fragment {
         viewModel.LoadVisitedEventFromDataBase();
         viewModel.GetDataFromDataBase();
         viewModel.GetProfileImageFromDataBase();
+        binding.SeeAllVisitedEvents.setVisibility(View.INVISIBLE);
+        binding.GoToOrganizedEventsFragment.setVisibility(View.INVISIBLE);
+        viewModel.getIdVisitedEvent().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.SeeAllVisitedEvents.setVisibility(View.VISIBLE);
+            }
+        });
+        viewModel.getIdOrganizedEvent().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.GoToOrganizedEventsFragment.setVisibility(View.VISIBLE);
+            }
+        });
+
+
         viewModel.getProfilePhotoUri().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String uri) {
                 Glide.with(requireActivity()).load(uri).into(binding.PhotoProfile);
+                binding.PhotoProfile.setImageResource(R.drawable.ava);
+
+            }
+        });
+        binding.VisitedEventPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewModel.getIdVisitedEvent().getValue() != null){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("idEvent", viewModel.getIdVisitedEvent().getValue());
+                    NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.eventFragment, bundle);
+                }
+            }
+        });
+        binding.photoCreatedEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewModel.getIdOrganizedEvent().getValue() != null){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("idEvent", viewModel.getIdOrganizedEvent().getValue());
+                    NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.eventFragment, bundle);
+                }
             }
         });
         viewModel.getIsOrganizer().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -133,7 +170,9 @@ public class ProfileFragment extends Fragment {
         binding.GoToOrganizedEventsFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.organizedEventsFragment);
+                if (viewModel.getIdOrganizedEvent() != null){
+                    NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.organizedEventsFragment);
+                }
             }
         });
         viewModel.getPhotoCreatedEvent().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -189,7 +228,9 @@ public class ProfileFragment extends Fragment {
         binding.SeeAllVisitedEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.visitedEventsFragment);
+                if (viewModel.getIdVisitedEvent() != null){
+                    NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.visitedEventsFragment);
+                }
             }
         });
 

@@ -22,6 +22,8 @@ import com.google.firebase.storage.StorageReference;
 import java.util.Objects;
 
 public class ProfileViewModel extends ViewModel {
+    private MutableLiveData<String> IdVisitedEvent = new MutableLiveData<>();
+    private MutableLiveData<String> IdOrganizedEvent = new MutableLiveData<>();
     private MutableLiveData<String> titleCreatedEvent = new MutableLiveData<>();
     private MutableLiveData<String> photoCreatedEvent = new MutableLiveData<>();
     private MutableLiveData<String> titleVisitedEvent = new MutableLiveData<>();
@@ -32,6 +34,22 @@ public class ProfileViewModel extends ViewModel {
     private MutableLiveData<String> City = new MutableLiveData<>();
     private MutableLiveData<String> AboutYourself = new MutableLiveData<>();
     private MutableLiveData<Boolean> IsOrganizer = new MutableLiveData<>();
+
+    public void setIdOrganizedEvent(String idOrganizedEvent) {
+        IdOrganizedEvent.setValue(idOrganizedEvent);
+    }
+
+    public MutableLiveData<String> getIdOrganizedEvent() {
+        return IdOrganizedEvent;
+    }
+
+    public MutableLiveData<String> getIdVisitedEvent() {
+        return IdVisitedEvent;
+    }
+
+    public void setIdVisitedEvent(String idVisitedEvent) {
+        IdVisitedEvent.setValue(idVisitedEvent);
+    }
 
     public MutableLiveData<String> getTitleVisitedEvent() {
         return titleVisitedEvent;
@@ -150,6 +168,8 @@ public class ProfileViewModel extends ViewModel {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChildren()){
                     for(DataSnapshot CreatedEvent : snapshot.getChildren()){
+                        Log.d("Mytest", "Key = " + CreatedEvent.getKey());
+                        setIdOrganizedEvent(CreatedEvent.getKey());
                         setTitleCreatedEvent(CreatedEvent.child("topic").getValue(String.class));
                         setPhotoCreatedEvent(CreatedEvent.child("imageEvent").getValue(String.class));
                         break;
@@ -181,6 +201,7 @@ public class ProfileViewModel extends ViewModel {
                                         if (VisitedEvent.getValue(String.class).equals(CreatedEvent.getKey())){
                                             String title = CreatedEvent.child("topic").getValue(String.class);
                                             String imageEvent = CreatedEvent.child("imageEvent").getValue(String.class);
+                                            setIdVisitedEvent(CreatedEvent.getKey());
                                             setTitleVisitedEvent(title);
                                             setPhotoVisitedEvent(imageEvent);
                                             break;

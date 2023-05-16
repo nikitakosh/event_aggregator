@@ -4,26 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".ui.home.HomeFragment">
 
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container_for_map"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            tools:ignore="MissingConstraints">
             <com.yandex.mapkit.mapview.MapView
                 android:id="@+id/mapview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/view35"
                 tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="0dp" />
-        </FrameLayout>
+                tools:layout_editor_absoluteX="0dp" >
 
-    </LinearLayout>
+            </com.yandex.mapkit.mapview.MapView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/GoToProfile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/profile_home" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

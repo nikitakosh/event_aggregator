@@ -27,17 +27,18 @@
                     app:layout_constraintStart_toStartOf="@+id/view40"
                     app:layout_constraintTop_toBottomOf="@+id/view40"
                     tools:ignore="MissingConstraints" />
+
                 <ImageView
                     android:id="@+id/GoBackToProfile"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@drawable/go_back"
+                    android:src="@drawable/profile_home"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView11"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView11"
                     tools:ignore="MissingConstraints" />
 
                 <TextView
@@ -49,7 +50,7 @@
                     android:gravity="center"
                     android:text="Создание мероприятия"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -91,7 +92,7 @@
                     app:layout_constraintStart_toStartOf="@+id/view37"
                     app:layout_constraintTop_toTopOf="@+id/view37"
                     app:layout_constraintVertical_bias="0.0"
-                    android:hint="Тематика мероприятия" />
+                    android:hint="Название мероприятия" />
 
                 <View
                     android:id="@+id/view39"

@@ -60,7 +60,7 @@
             android:ems="10"
             android:fontFamily="@font/inter"
             android:hint="Пароль"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             app:layout_constraintBottom_toBottomOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="@+id/view2"
             app:layout_constraintStart_toStartOf="@+id/view2"

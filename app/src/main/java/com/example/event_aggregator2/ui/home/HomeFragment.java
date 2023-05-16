@@ -81,6 +81,12 @@ public class HomeFragment extends Fragment {
 
             }
         });
+        binding.GoToProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(HomeFragment.this).navigate(R.id.profileFragment);
+            }
+        });
     }
     public void onStop() {
         binding.mapview.onStop();
